@@ -1,0 +1,83 @@
+#Author: your.email@your.domain.com
+#Keywords Summary :
+#Feature: List of scenarios.
+#Scenario: Business rule through list of steps with arguments.
+#Given: Some precondition step
+#When: Some key actions
+#Then: To observe outcomes or validation
+#And,But: To enumerate more Given,When,Then steps
+#Scenario Outline: List of steps for data-driven as an Examples and <placeholder>
+#Examples: Container for s table
+#Background: List of steps run before each of the scenarios
+#""" (Doc Strings)
+#| (Data Tables)
+#@ (Tags/Labels):To group Scenarios
+#<> (placeholder)
+#""
+## (Comments)
+#Sample Feature Definition Template
+
+Feature: Inventory API tests
+
+Background:
+* url 'http://localhost:3100/api'
+
+Scenario: Get all menu items
+Given path 'inventory'
+When method GET
+Then status 200
+And match response.length >= 9
+# ensure each item has the required keys
+And match each response == { id: '#notnull', name: '#string', price: '#string', image: '#string' }
+
+Scenario: Filter by ID
+Given path 'inventory', 'filter'
+And param id = 3
+When method GET
+Then status 200
+# API returns id as string
+And match response.id == '3'
+And match response.name == 'Baked Rolls x 8'
+# price for ID 3 is $10
+And match response.price == '$10'
+And match response.image == 'roll.png'
+
+Scenario: Add item with new ID
+Given path 'inventory', 'add'
+And request { id: '101', name: 'Pradeep', image: 'hawaiian.png', price: '$17' }
+When method POST
+Then status 200
+
+Scenario: Add item with existing ID
+Given path 'inventory', 'add'
+And request { id: 10, name: 'Hawaiian', image: 'hawaiian.png', price: '$14' }
+When method POST
+Then status 400
+
+Scenario: Add item with missing info
+Given path 'inventory', 'add'
+And request { name: 'Missing ID', image: 'missing.png', price: '$10' }
+When method POST
+Then status 400
+# error returns plain text
+And match response == 'Not all requirements are met'
+
+Scenario: Validate recently added item is present
+Given path 'inventory'
+When method GET
+Then status 200
+# items now wrapped under data
+And match response.data contains { id: 10, name: 'Hawaiian', image: 'hawaiian.png', price: '$14' }
+
+
+
+
+
+
+
+
+
+
+   
+
+    
