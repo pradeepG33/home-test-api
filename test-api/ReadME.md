@@ -23,16 +23,16 @@ Test the API is live: Open your browser and go to:
   You should see JSON data of menu items.
 
 3. Create Karate Maven Project ( or) Clone this project from git repository
-  1. create a maven project 
-  2. add dependencies in pom.xml like karate dependency etc.
-  3. Create a karate feature file with scenarios mentioned. 
-       i. Get all menu items
-       ii.Filter by id
-       iii.Add item for non existing id
-       iv.Add item for existent id
-       v.Try to add item with missing information
-       vi.Validate recent added item is present in the inventory
-  4. Create a Runner Class
+       1. create a maven project 
+       2. add dependencies in pom.xml like karate dependency etc.
+       3. Create a karate feature file with scenarios mentioned. 
+                     i. Get all menu items
+                     ii.Filter by id
+                     iii.Add item for non existing id
+                     iv.Add item for existent id
+                     v.Try to add item with missing information
+                     vi.Validate recent added item is present in the inventory
+       4. Create a Runner Class
   
 4. Go to Maven - Update the Project, mvn clean and run mvn test(executes all scenarios in the project)
 5. you can see the status/test results in console
